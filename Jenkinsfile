@@ -1,4 +1,4 @@
-
+def gv
 pipeline {
   agent any
   parameters {
@@ -10,12 +10,17 @@ pipeline {
     maven 'maven-3.9.6'
   }
   stages {
+    stage('init') {
+      steps {
+        script {
+          gv = load "script.groovy"
+        }
+      }
+    }
     stage('build') {
       steps {
         script {
-          echo "Building the application..."
-          echo "building version ${params.NEW_VERSION}"
-          sh "mvn install"
+          gv.buildJar()
         }
       }
     }
